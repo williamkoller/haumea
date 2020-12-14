@@ -1,6 +1,7 @@
 version: "3"
 services:
   api:
+    container_name: api_haumea
     depends_on:
       - db
     restart: always
@@ -19,6 +20,7 @@ services:
 
   db:
     image: mongo
+    container_name: mongo_haumea
     restart: always
     env_file:
       - .env
