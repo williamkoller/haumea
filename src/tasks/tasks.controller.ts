@@ -8,28 +8,27 @@ export class TasksController {
 
   @Get()
   async getAll(): Promise<Task[]> {
-    return this.taskService.getAll()
+    return await this.taskService.getAll()
   }
 
   @Get(':id')
-  async getById(@Param('id') id: number): Promise<Task> {
-    return this.taskService.getById(id)
+  async getById(@Param('id') id: string): Promise<Task> {
+    return await this.taskService.getById(id)
   }
 
   @Post()
   async create(@Body() task: Task): Promise<Task> {
-    return this.taskService.create(task)
+    return await this.taskService.create(task)
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() task: Task): Promise<Task> {
-    task.id = id
-    return this.taskService.update(task)
+  async update(@Param('id') id: string, @Body() task: Task): Promise<Task> {
+    return await this.taskService.update(id, task)
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: number): Promise<{ message: string } | void> {
-    this.taskService.delete(id)
+  async delete(@Param('id') id: string): Promise<{ message: string } | void> {
+    await this.taskService.delete(id)
     return {
       message: 'Task deleted successfully',
     }
