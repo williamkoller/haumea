@@ -1,12 +1,14 @@
-FROM node:14.15.1-alpine3.12
+FROM node:12-alpine3.12
 
 WORKDIR /usr/src/app
 
-COPY ./package*.json ./
+ADD package.json /usr/src/app
+
+RUN npm config set registry http://registry.npmjs.org
 
 RUN npm install
 
-COPY . .
+ADD . /usr/src/app
 
 EXPOSE 3000
 

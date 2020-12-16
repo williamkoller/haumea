@@ -13,7 +13,7 @@ import { TaskSchema } from './schema/task.schema'
       },
     ]),
   ],
-  controllers: [TasksController],
   providers: [TaskService],
+  controllers: [TasksController],
 })
 export class TasksModule {}

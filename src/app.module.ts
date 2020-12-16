@@ -1,6 +1,8 @@
+import { AuthModule } from './auth/auth.module'
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { TasksModule } from './tasks/tasks.module'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [
@@ -8,9 +10,11 @@ import { TasksModule } from './tasks/tasks.module'
       useCreateIndex: true,
       useFindAndModify: true,
       useNewUrlParser: true,
-      useUnifiedTopology: false,
+      useUnifiedTopology: true,
     }),
+    AuthModule,
     TasksModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],
