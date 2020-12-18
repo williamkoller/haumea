@@ -1,19 +1,26 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { User } from 'src/users/shared/user'
-import { UsersService } from 'src/users/shared/users.service'
 import { JwtService } from '@nestjs/jwt'
-import { InjectModel } from '@nestjs/mongoose'
-import { Model } from 'mongoose'
-import { JwtPayload } from '../interfaces/jwt-payload.intercate'
+import { UsersService } from 'src/users/shared/users.service'
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>, private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService, private readonly usersService: UsersService) {}
 
-  async validateUser(jwtPaylod: JwtPayload): Promise<User> {
-    const user = await this.userModel.findOne({ _id: jwtPaylod.userId, verified: true })
+  async validateUser(userEmail: User): Promise<User> {
+    const user = await this.usersService.getByEmail(userEmail)
     if (!user) {
       throw new UnauthorizedException('User not found.')
     }
     return user
+  }
+
+  async login(user: any) {
+    const playload = {
+      email: user.email,
+      sub: user.id,
+    }
+    return {
+      access_token: this.jwtService.sign(playload),
+    }
   }
 }
